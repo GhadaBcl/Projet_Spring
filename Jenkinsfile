@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        
         stage('Git Clone') {
             steps {
                 git branch: 'main',
@@ -9,7 +10,7 @@ pipeline {
                     url: 'https://github.com/GhadaBcl/Projet_Spring.git'
             }
         }
-        //Netooyage
+        //Nettoyage
         stage('Nettoyage du projet') {
             steps {
                 sh 'mvn clean'
