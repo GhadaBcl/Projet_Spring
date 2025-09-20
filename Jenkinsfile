@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        
+        //clone
         stage('Git Clone') {
             steps {
                 git branch: 'main',
