@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Git Clone') {
             steps {
-                git branch: 'master',
+                git branch: 'main',
                     credentialsId: 'github-jenkins',
                     url: 'https://github.com/GhadaBcl/Projet_Spring.git'
             }
