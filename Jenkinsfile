@@ -9,13 +9,13 @@ pipeline {
                     url: 'https://github.com/GhadaBcl/Projet_Spring.git'
             }
         }
-        
+        //Netooyage
         stage('Nettoyage du projet') {
             steps {
                 sh 'mvn clean'
             }
         }
-        
+        //Mvn
         stage('Maven Package') {
             steps {
                 sh 'mvn package'
