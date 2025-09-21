@@ -1,8 +1,13 @@
 pipeline {
     agent any
 
+    environment {
+        // Active le profil test pour exécuter les tests avec H2
+        SPRING_PROFILES_ACTIVE = 'test'
+    }
+
     stages {
-        //clone
+        // Cloner le projet depuis GitHub
         stage('Git Clone') {
             steps {
                 git branch: 'main',
@@ -10,16 +15,19 @@ pipeline {
                     url: 'https://github.com/GhadaBcl/Projet_Spring.git'
             }
         }
-        //Nettoyage
+
+        // Nettoyer le projet
         stage('Nettoyage du projet') {
             steps {
                 sh 'mvn clean'
             }
         }
-        //Mvn
-        stage('Maven Package') {
+
+        // Builder et tester le projet Maven
+        stage('Maven Package & Tests') {
             steps {
-                sh 'mvn package'
+                // On active le profil test pour que H2 soit utilisé
+                sh 'mvn package -Dspring-boot.run.profiles=test'
             }
         }
     }
