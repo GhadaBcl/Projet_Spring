@@ -51,6 +51,6 @@ pipeline {
                 sh 'docker push ghadabcl/projet_spring'
             }
         }
-
+//
     }
 }
