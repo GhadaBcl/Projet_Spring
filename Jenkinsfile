@@ -1,4 +1,4 @@
-pipeline {
+pipeline { // test du webhook
     agent any
 
     environment {
