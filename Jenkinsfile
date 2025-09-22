@@ -1,4 +1,4 @@
-pipeline { // Pipeline Spring Boot + Docker
+pipeline { 
     agent any
     
     stages {
