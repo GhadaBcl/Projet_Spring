@@ -1,9 +1,15 @@
-FROM eclipse-temurin:17-jdk-jammy
-
+# Étape 1 : Build avec Maven
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
 
-COPY target/Projet_Spring-3.0.0.jar app.jar
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Étape 2 : Image finale légère
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+
+COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
