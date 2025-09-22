@@ -1,4 +1,4 @@
-pipeline { //test ngrok with docker
+pipeline { 
     agent any
     
     stages {
