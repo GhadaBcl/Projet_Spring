@@ -7,7 +7,7 @@ pipeline { // test du webhook
     }
 
     stages {
-        // Cloner le projet depuis GitHub (le login)
+        // Cloner le projet depuis GitHub
         stage('Git Clone') {
             steps {
                 git branch: 'main',
