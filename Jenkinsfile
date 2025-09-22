@@ -7,7 +7,7 @@ pipeline {
     }
 
     stages {
-        // Cloner le projet depuis GitHub
+        // Cloner le projet depuis GitHub (le login)
         stage('Git Clone') {
             steps {
                 git branch: 'main',
