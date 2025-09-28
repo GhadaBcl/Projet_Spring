@@ -34,7 +34,7 @@ pipeline {
 
             steps {
 
-                sh 'docker build -t GhadaBcl/Projet_Spring .'
+                sh 'docker build -t ghadabcl/projet_spring .'
                 sh 'docker images'
 
             }
