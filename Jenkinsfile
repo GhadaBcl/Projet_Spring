@@ -1,13 +1,17 @@
-pipeline { 
+pipeline {
     agent any
-    
-    stages {
 
+    environment {
+        // Active le profil test pour exécuter les tests avec H2
+        SPRING_PROFILES_ACTIVE = 'test'
+    }
+
+    stages {
         // Cloner le projet depuis GitHub
         stage('Git Clone') {
             steps {
                 git branch: 'main',
-                    credentialsId: 'github-jenkins', //credentialsId
+                    credentialsId: 'github-jenkins',
                     url: 'https://github.com/GhadaBcl/Projet_Spring.git'
             }
         }
@@ -22,35 +26,47 @@ pipeline {
         // Builder et tester le projet Maven
         stage('Maven Package & Tests') {
             steps {
-                sh "mvn package -DskipTests=true"
+                sh 'mvn package -DskipTests=True'
             }
         }
+        
+              stage("Docker Build") {
 
-        // Docker Build
-        stage('Docker Build') {
             steps {
-                sh 'docker build -t ghadabcl/projet_spring .'
+
+                sh 'docker build -t GhadaBcl/Projet_Spring .'
                 sh 'docker images'
-            }
-        }
 
-        // Docker Login
-        stage('Docker Login') {
+            }
+
+        }
+        
+               stage("Docker Login") {
+
             steps {
+
                 script {
+
                     withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+
                         sh 'echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin'
+
                     }
+
                 }
-            }
-        }
 
-        // Docker Push
-        stage('Docker Push') {
+            }
+
+        }
+        
+             stage("Docker Push") {
+
             steps {
-                sh 'docker push ghadabcl/projet_spring'
-            }
-        }
 
+                sh 'docker push GhadaBcl/Projet_Spring'
+
+            }
+
+        }
     }
 }
