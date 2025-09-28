@@ -40,7 +40,7 @@ pipeline {
             }
 
         }
-        
+            //login
                stage("Docker Login") {
 
             steps {
