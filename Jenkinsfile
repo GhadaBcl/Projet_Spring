@@ -63,7 +63,7 @@ pipeline {
 
             steps {
 
-                sh 'docker push GhadaBcl/Projet_Spring'
+                sh 'docker push ghadabcl/projet_spring'
 
             }
 
