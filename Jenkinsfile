@@ -1,6 +1,6 @@
 pipeline {
     agent any
-//
+
     environment {
         // Active le profil test pour exécuter les tests avec H2
         SPRING_PROFILES_ACTIVE = 'test'
