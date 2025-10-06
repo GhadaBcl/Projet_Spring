@@ -33,9 +33,12 @@ pipeline {
           // Tester la qualité de code
         stage('SonarQube') {
             steps {
-                sh 'mvn sonar:sonar'
+                withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
+                }
             }
         }
+
             //construire l'image
               stage("Docker Build") {
 
