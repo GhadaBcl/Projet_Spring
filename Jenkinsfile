@@ -39,6 +39,7 @@ pipeline {
             }
         }
 
+
             //construire l'image
               stage("Docker Build") {
 
