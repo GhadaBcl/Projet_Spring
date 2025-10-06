@@ -29,6 +29,13 @@ pipeline {
                 sh 'mvn package -DskipTests=True'
             }
         }
+
+          // Tester la qualité de code
+        stage('SonarQube') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
+        }
         
               stage("Docker Build") {
 
