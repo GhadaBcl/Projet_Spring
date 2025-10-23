@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     environment {
-        // Active le profil test pour exécuter les tests avec H2
+        // Active le profil test pour exécuter les tests avec H2.....
         SPRING_PROFILES_ACTIVE = 'test'
     }
 
     stages {
-        // Cloner le projet depuis GitHub
+        // Cloner le projet depuis GitHub .
         stage('Git Clone') {
             steps {
                 git branch: 'main',
@@ -29,7 +29,18 @@ pipeline {
                 sh 'mvn package -DskipTests=True'
             }
         }
-        
+
+          // Tester la qualité de code
+        stage('SonarQube') {
+            steps {
+                withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
+                }
+            }
+        }
+
+
+            //construire l'image
               stage("Docker Build") {
 
             steps {
