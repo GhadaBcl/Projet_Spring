@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NAMESPACE = 'devops'                  // Namespace Kubernetes
+        NAMESPACE = 'devops'                  // Namespace Kubernetes.
         IMAGE_NAME = 'ghadabcl/projet_spring' // Nom de l'image Docker
     }
 
