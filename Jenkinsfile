@@ -65,7 +65,7 @@ pipeline {
 stage('Kubernetes Deploy') {
     steps {
         sh '''
-            export KUBECONFIG=/home/vagrant/.minikube/profiles/minikube/config
+            export KUBECONFIG=/home/vagrant/kubeconfig.yaml
             
             # Créer le namespace si inexistant
             kubectl get ns ${NAMESPACE} >/dev/null 2>&1 || kubectl create ns ${NAMESPACE}
@@ -86,7 +86,9 @@ stage('Kubernetes Deploy') {
     }
 }
 
+
 }
+    
 
 
     }
