@@ -65,26 +65,27 @@ pipeline {
 stage('Kubernetes Deploy') {
     steps {
         sh '''
-            export KUBECONFIG=/home/vagrant/kubeconfig.yaml
-            
+            export KUBECONFIG=/var/lib/jenkins/.kube/config
+
             # Créer le namespace si inexistant
             kubectl get ns ${NAMESPACE} >/dev/null 2>&1 || kubectl create ns ${NAMESPACE}
-            
+
             # Injecter l'image Docker dans le manifest
             sed -i "s#REPLACE_IMAGE#${IMAGE_NAME}:latest#g" ${K8S_DEPLOYMENT}
-            
+
             # Déployer MySQL et Spring
             kubectl apply -f k8s/mysql-deployment.yaml -n ${NAMESPACE}
             kubectl apply -f ${K8S_DEPLOYMENT} -n ${NAMESPACE}
-            
+
             # Vérifier le déploiement
             kubectl rollout status deploy/mysql -n ${NAMESPACE} --timeout=180s || true
             kubectl rollout status deploy/spring -n ${NAMESPACE} --timeout=240s || true
-            
+
             kubectl get pods,svc -n ${NAMESPACE}
         '''
     }
 }
+
 
 
 }
