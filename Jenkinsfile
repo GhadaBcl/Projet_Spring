@@ -62,30 +62,30 @@ pipeline {
             }
         }
 
-   stage('Kubernetes Deploy') {
+stage('Kubernetes Deploy') {
     steps {
-        withCredentials([file(credentialsId: 'K8S', variable: 'KUBEFILE')]) {
-            sh '''
-                export KUBECONFIG="$KUBEFILE"
-                
-                # Créer le namespace si inexistant
-                kubectl get ns ${NAMESPACE} >/dev/null 2>&1 || kubectl create ns ${NAMESPACE}
-                
-                # Injecter l'image Docker dans le manifest
-                sed -i "s#REPLACE_IMAGE#${IMAGE_NAME}:latest#g" ${K8S_DEPLOYMENT}
-                
-                # Déployer MySQL et Spring
-                kubectl apply -f k8s/mysql-deployment.yaml -n ${NAMESPACE}
-                kubectl apply -f ${K8S_DEPLOYMENT} -n ${NAMESPACE}
-                
-                # Vérifier le déploiement
-                kubectl rollout status deploy/mysql -n ${NAMESPACE} --timeout=180s || true
-                kubectl rollout status deploy/spring -n ${NAMESPACE} --timeout=240s || true
-                
-                kubectl get pods,svc -n ${NAMESPACE}
-            '''
-        }
+        sh '''
+            export KUBECONFIG=/home/vagrant/.minikube/profiles/minikube/config
+            
+            # Créer le namespace si inexistant
+            kubectl get ns ${NAMESPACE} >/dev/null 2>&1 || kubectl create ns ${NAMESPACE}
+            
+            # Injecter l'image Docker dans le manifest
+            sed -i "s#REPLACE_IMAGE#${IMAGE_NAME}:latest#g" ${K8S_DEPLOYMENT}
+            
+            # Déployer MySQL et Spring
+            kubectl apply -f k8s/mysql-deployment.yaml -n ${NAMESPACE}
+            kubectl apply -f ${K8S_DEPLOYMENT} -n ${NAMESPACE}
+            
+            # Vérifier le déploiement
+            kubectl rollout status deploy/mysql -n ${NAMESPACE} --timeout=180s || true
+            kubectl rollout status deploy/spring -n ${NAMESPACE} --timeout=240s || true
+            
+            kubectl get pods,svc -n ${NAMESPACE}
+        '''
     }
+}
+
 }
 
 
